@@ -80,7 +80,8 @@ function load(): Data {
 }
 
 /** Seed settings, overridden only by stored values of the same type. */
-function mergeSettings(p: Record<string, unknown>): Settings {
+function mergeSettings(stored: object): Settings {
+  const p = stored as Record<string, unknown>;
   const out: Record<string, unknown> = { ...seed().settings };
   for (const k in p) {
     if (k in out ? typeof p[k] === typeof out[k] : k === 'lastBackupAt' && typeof p[k] === 'string') out[k] = p[k];
