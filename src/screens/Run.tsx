@@ -132,7 +132,7 @@ export function Run({ setId }: { setId: string }) {
   const nextSeg = tl[k + 1];
 
   return (
-    <div className="mx-auto flex h-full max-w-md flex-col gap-5 px-5 pt-[max(24px,env(safe-area-inset-top))] pb-[max(32px,env(safe-area-inset-bottom))] text-bg transition-colors duration-300"
+    <div className="mx-auto flex h-full max-w-md flex-col gap-5 px-5 pt-[calc(env(safe-area-inset-top)+20px)] pb-[max(32px,env(safe-area-inset-bottom))] text-bg transition-colors duration-300"
       style={{ background: look.bg }}>
       <div className="flex items-center justify-between">
         <button aria-label="Thoát buổi tập" onClick={exit} className="flex size-11 items-center justify-center rounded-full bg-bg/10"><Icon name="close" /></button>

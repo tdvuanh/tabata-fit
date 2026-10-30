@@ -37,7 +37,7 @@ export const Play = ({ size = 16 }: { size?: number }) => (
 export function Screen({ children, nav, footer }: { children: ReactNode; nav?: 'home' | 'schedule' | 'sets'; footer?: ReactNode }) {
   return (
     <div className="mx-auto flex h-full max-w-md flex-col">
-      <main className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 pt-[max(24px,env(safe-area-inset-top))] pb-6">{children}</main>
+      <main className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 pt-[calc(env(safe-area-inset-top)+20px)] pb-6">{children}</main>
       {footer}
       {nav && <NavBar active={nav} />}
     </div>
@@ -51,7 +51,7 @@ function NavBar({ active }: { active: string }) {
     ['sets', '#/sets', 'layers', 'Mẫu'],
   ] as const;
   return (
-    <nav aria-label="Điều hướng chính" className="grid shrink-0 grid-cols-3 border-t border-[#22252a] bg-bar pb-[max(10px,env(safe-area-inset-bottom))]">
+    <nav aria-label="Điều hướng chính" className="grid shrink-0 grid-cols-3 border-t border-[#22252a] bg-bar pb-[max(8px,calc(env(safe-area-inset-bottom)-16px))]">
       {items.map(([k, href, icon, label]) => (
         <a key={k} href={href} aria-current={active === k ? 'page' : undefined}
           className={`flex min-h-14 flex-col items-center justify-center gap-1 text-[11px] font-semibold ${active === k ? 'text-work' : 'text-ink-3'}`}>
