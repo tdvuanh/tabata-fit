@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useData } from '../lib/store';
+import { actions, useData } from '../lib/store';
 import { GROUPS, totalSec, fmt, type Group } from '../lib/timeline';
 import { Icon, Play, Screen } from '../ui';
 
@@ -7,6 +7,10 @@ export function Sets() {
   const data = useData();
   const [filter, setFilter] = useState<Group | 'all'>('all');
   const list = data.sets.filter((s) => filter === 'all' || s.group === filter);
+  const del = (id: string, name: string) => {
+    const scheduled = data.schedules.some((x) => x.setId === id);
+    if (confirm(scheduled ? `"${name}" đang có lịch tập. Xoá cả set và lịch?` : `Xoá "${name}"?`)) actions.deleteSet(id);
+  };
   const chips: [Group | 'all', string][] = [['all', 'Tất cả'], ...(Object.entries(GROUPS) as [Group, string][])];
 
   return (
@@ -38,6 +42,7 @@ export function Sets() {
             <div className="flex items-center gap-2">
               <a href={`#/edit/${s.id}`} aria-label={`Sửa ${s.name}`} className="flex size-11 items-center justify-center rounded-full border border-line"><Icon name="edit" size={18} /></a>
               <a href={`#/schedule/${s.id}`} aria-label={`Lên lịch ${s.name}`} className="flex size-11 items-center justify-center rounded-full border border-line"><Icon name="cal" size={18} /></a>
+              <button aria-label={`Xoá ${s.name}`} onClick={() => del(s.id, s.name)} className="flex size-11 items-center justify-center rounded-full border border-line text-ink-3"><Icon name="trash" size={18} /></button>
               <span className="flex-1" />
               <a href={`#/run/${s.id}`} className="flex h-11 items-center gap-2 rounded-full bg-work px-4.5 text-sm font-bold text-bg"><Play size={14} />Tập</a>
             </div>
