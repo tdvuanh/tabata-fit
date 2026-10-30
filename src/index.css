@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+@import '@fontsource/be-vietnam-pro/vietnamese-400.css';
+@import '@fontsource/be-vietnam-pro/vietnamese-600.css';
+@import '@fontsource/be-vietnam-pro/vietnamese-700.css';
+@import '@fontsource/be-vietnam-pro/latin-400.css';
+@import '@fontsource/be-vietnam-pro/latin-600.css';
+@import '@fontsource/be-vietnam-pro/latin-700.css';
+@import '@fontsource/barlow-condensed/latin-700.css';
+@import '@fontsource/barlow-condensed/latin-800.css';
+@import '@fontsource/barlow-condensed/vietnamese-700.css';
+@import '@fontsource/barlow-condensed/vietnamese-800.css';
+
+@theme {
+  --color-bg: #0e0f12;
+  --color-surface: #17191d;
+  --color-surface-2: #22252a;
+  --color-bar: #131518;
+  --color-line: #2a2d33;
+  --color-line-strong: #3a3e45;
+  --color-ink: #f2f3f5;
+  --color-ink-2: #c9cdd2;
+  --color-ink-3: #9aa0a6;
+  --color-work: #c6f432;
+  --color-rest: #5ab4ff;
+  --color-rest-ink: #9dd2ff;
+  --color-prep: #ffb547;
+  --font-sans: 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-num: 'Barlow Condensed', 'Be Vietnam Pro', sans-serif;
+}
+
+html, body, #root { height: 100%; }
+body { margin: 0; background: var(--color-bg); color: var(--color-ink); font-family: var(--font-sans); -webkit-tap-highlight-color: transparent; }
+input, select, button { font: inherit; }
+:focus-visible { outline: 2px solid var(--color-rest-ink); outline-offset: 2px; }
+input[type='date'], input[type='time'] { color-scheme: dark; }
+.switch { appearance: none; -webkit-appearance: none; width: 52px; height: 32px; border-radius: 16px; background: var(--color-line-strong); position: relative; margin: 0; flex-shrink: 0; cursor: pointer; }
+.switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 13px; background: var(--color-ink); transition: left .15s; }
+.switch:checked { background: var(--color-work); }
+.switch:checked::after { left: 23px; background: var(--color-bg); }
+.switch:disabled { opacity: .4; }
