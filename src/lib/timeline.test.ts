@@ -7,11 +7,19 @@ const set: WorkoutSet = {
   setRestSec: 60, prepSec: 10, moves: ['A', 'B', 'C', 'D'], builtIn: false, updatedAt: '',
 };
 
-test('total matches timeline length (19:10)', () => {
+test('total matches timeline length (18:40)', () => {
   const tl = buildTimeline(set);
   const last = tl.at(-1)!;
-  assert.equal(totalSec(set), 1150);
-  assert.equal(last.start + last.sec, 1150);
+  assert.equal(totalSec(set), 1120);
+  assert.equal(last.start + last.sec, 1120);
+});
+
+test('last round of a set goes straight to set rest, no regular rest before it', () => {
+  const tl = buildTimeline(set);
+  const k = tl.findIndex((g) => g.phase === 'setRest');
+  assert.equal(tl[k - 1].phase, 'work');
+  assert.equal(tl[k - 1].round, 8);
+  assert.equal(tl.filter((g) => g.phase === 'rest').length, 32 - 3);
 });
 
 test('moves rotate across rounds and sets', () => {
@@ -26,7 +34,7 @@ test('segmentAt finds the right segment and the end', () => {
   assert.equal(tl[segmentAt(tl, 10)].phase, 'work');
   assert.equal(tl[segmentAt(tl, 30)].phase, 'rest');
   assert.equal(tl[segmentAt(tl, 250)].phase, 'setRest');
-  assert.equal(segmentAt(tl, 1150), -1);
+  assert.equal(segmentAt(tl, 1120), -1);
 });
 
 test('zero rest and no moves still work', () => {

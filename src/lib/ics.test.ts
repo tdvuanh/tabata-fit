@@ -25,5 +25,5 @@ test('ics has weekly rule, alarm, escaped summary and DTSTART on a BYDAY day', (
   assert.match(ics, /TRIGGER:-PT15M/);
   assert.match(ics, /SUMMARY:Tập Tabata: Toàn thân\\, đốt mỡ/);
   assert.match(ics, /DTSTART;TZID=Asia\/Ho_Chi_Minh:20261102T183000/);
-  assert.match(ics, /DTEND;TZID=Asia\/Ho_Chi_Minh:20261102T184910/);
+  assert.match(ics, /DTEND;TZID=Asia\/Ho_Chi_Minh:20261102T184840/);
 });

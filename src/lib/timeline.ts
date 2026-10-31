@@ -34,7 +34,8 @@ export const GROUPS: Record<Group, string> = {
 };
 
 export function totalSec(s: WorkoutSet): number {
-  return s.prepSec + s.sets * s.rounds * (s.workSec + s.restSec) + (s.sets - 1) * s.setRestSec;
+  // the last round of every set but the final one goes straight into the set rest, no regular rest
+  return s.prepSec + s.sets * s.rounds * (s.workSec + s.restSec) + (s.sets - 1) * (s.setRestSec - s.restSec);
 }
 
 export function buildTimeline(s: WorkoutSet): Segment[] {
@@ -51,8 +52,8 @@ export function buildTimeline(s: WorkoutSet): Segment[] {
     for (let round = 1; round <= s.rounds; round++) {
       push({ phase: 'work', sec: s.workSec, set, round, move: moveAt(i) });
       i++;
-      push({ phase: 'rest', sec: s.restSec, set, round, next: moveAt(i) });
       if (round === s.rounds && set < s.sets) push({ phase: 'setRest', sec: s.setRestSec, set, round, next: moveAt(i) });
+      else push({ phase: 'rest', sec: s.restSec, set, round, next: moveAt(i) });
     }
   }
   return out;
