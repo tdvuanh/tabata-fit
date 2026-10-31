@@ -4,7 +4,7 @@ import { Home } from './screens/Home';
 import { Run } from './screens/Run';
 import { Builder } from './screens/Builder';
 import { Sets } from './screens/Sets';
-import { SchedulePage } from './screens/Schedule';
+// Tạm ẩn hẹn giờ tập: Schedule.tsx + lib/ics.ts vẫn giữ, gắn lại route ở đây để bật.
 import { SettingsPage } from './screens/Settings';
 
 export function App() {
@@ -14,7 +14,6 @@ export function App() {
     page === 'run' && id ? <Run key={id} setId={id} />
     : page === 'edit' ? <Builder key={id ?? 'new'} setId={id} />
     : page === 'sets' ? <Sets />
-    : page === 'schedule' ? <SchedulePage key={id ?? ''} setId={id} />
     : page === 'settings' ? <SettingsPage />
     : <Home />;
   return (

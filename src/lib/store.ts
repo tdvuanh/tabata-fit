@@ -28,6 +28,8 @@ export interface Settings {
   wakeLock: boolean;
   defaultPrepSec: number;
   remindBeforeMin: number;
+  tourDone: boolean;
+  setsTourDone: boolean;
   lastBackupAt?: string;
 }
 
@@ -54,7 +56,7 @@ const seed = (): Data => ({
   ],
   schedules: [],
   logs: [],
-  settings: { beep: true, voice: true, voiceLang: 'vi-VN', volume: 0.8, vibrate: true, wakeLock: true, defaultPrepSec: 10, remindBeforeMin: 15 },
+  settings: { beep: true, voice: true, voiceLang: 'vi-VN', volume: 0.8, vibrate: true, wakeLock: true, defaultPrepSec: 10, remindBeforeMin: 15, tourDone: false, setsTourDone: false },
 });
 
 function load(): Data {

@@ -85,22 +85,6 @@ export function SettingsPage() {
         <Stepper label="Đếm chuẩn bị mặc định cho set mới" unit="s" value={s.defaultPrepSec} step={5} max={60} onChange={(v) => set({ defaultPrepSec: v })} dot="var(--color-prep)" />
       </section>
 
-      <section className="flex flex-col gap-2">
-        <H>Nhắc lịch tập</H>
-        <p className="rounded-2xl bg-surface p-4 text-[13px] leading-relaxed text-ink-2">
-          Mỗi buổi hẹn được thêm vào <b className="text-ink">lịch điện thoại</b>, lịch của máy sẽ nhắc đúng giờ, không cần mạng. Thông báo ngay trong app: sắp có.
-        </p>
-        <label className="flex items-center gap-3 rounded-2xl bg-surface px-4 py-2.5">
-          <span className="flex-1 text-[15px] font-semibold">Nhắc trước</span>
-          <select className="h-11 rounded-xl border border-line bg-surface-2 px-2.5 text-sm" value={s.remindBeforeMin} onChange={(e) => set({ remindBeforeMin: Number(e.target.value) })}>
-            <option value={5}>5 phút</option>
-            <option value={15}>15 phút</option>
-            <option value={30}>30 phút</option>
-            <option value={60}>1 giờ</option>
-          </select>
-        </label>
-      </section>
-
       {!standalone && (
         <section className="flex flex-col gap-3 rounded-[20px] border border-line bg-bar p-4">
           <h2 className="font-bold">Cài app ra màn hình chính</h2>

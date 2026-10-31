@@ -1,4 +1,4 @@
-import { useSyncExternalStore, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 
 /* ---------- hash router: #/run/abc → ['run', 'abc'] ---------- */
 const sub = (l: () => void) => (addEventListener('hashchange', l), () => removeEventListener('hashchange', l));
@@ -47,13 +47,12 @@ export function Screen({ children, nav, footer }: { children: ReactNode; nav?: '
 function NavBar({ active }: { active: string }) {
   const items = [
     ['home', '#/', 'home', 'Hôm nay'],
-    ['schedule', '#/schedule', 'cal', 'Lịch'],
     ['sets', '#/sets', 'layers', 'Mẫu'],
   ] as const;
   return (
-    <nav aria-label="Điều hướng chính" className="grid shrink-0 grid-cols-3 border-t border-[#22252a] bg-bar pb-[max(8px,calc(env(safe-area-inset-bottom)-16px))]">
+    <nav aria-label="Điều hướng chính" className="grid shrink-0 grid-cols-2 border-t border-[#22252a] bg-bar pb-[max(8px,calc(env(safe-area-inset-bottom)-16px))]">
       {items.map(([k, href, icon, label]) => (
-        <a key={k} href={href} aria-current={active === k ? 'page' : undefined}
+        <a key={k} href={href} data-tour={`nav-${k}`} aria-current={active === k ? 'page' : undefined}
           className={`flex min-h-14 flex-col items-center justify-center gap-1 text-[11px] font-semibold ${active === k ? 'text-work' : 'text-ink-3'}`}>
           <Icon name={icon} size={22} />{label}
         </a>
@@ -104,3 +103,44 @@ export const DOW = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 export const field = 'h-12 w-full min-w-0 rounded-xl border border-line bg-surface px-3 text-[15px] text-ink';
 export const primary = 'flex h-13 items-center justify-center gap-2 rounded-full bg-work px-5 font-bold text-bg';
 export const ghost = 'flex h-11 items-center justify-center gap-2 rounded-xl border border-line px-4 text-sm font-semibold';
+
+/* ---------- first-run tour: dims the screen, rings [data-tour=target], tooltip beside it ---------- */
+export type TourStep = { target: string; text: string };
+export function Tour({ steps, onDone }: { steps: TourStep[]; onDone: () => void }) {
+  const [i, setI] = useState(0);
+  const [r, setR] = useState<DOMRect | null>(null);
+  const nextBtn = useRef<HTMLButtonElement>(null);
+  const last = i === steps.length - 1;
+  const next = () => (last ? onDone() : setI(i + 1));
+  useLayoutEffect(() => {
+    const el = document.querySelector(`[data-tour="${steps[i].target}"]`);
+    if (!el) return next(); // target not on screen (e.g. no sets): skip the step
+    el.scrollIntoView({ block: 'center' });
+    const measure = () => setR(el.getBoundingClientRect());
+    measure();
+    addEventListener('resize', measure);
+    nextBtn.current?.focus();
+    return () => removeEventListener('resize', measure);
+  }, [i]);
+  if (!r) return null;
+  const pad = 6;
+  const below = r.bottom + 200 < innerHeight;
+  // keep the ring on screen for targets touching the edge (nav bar)
+  const top = Math.max(2, r.top - pad), left = Math.max(2, r.left - pad);
+  const ring = { top, left, width: Math.min(innerWidth - 2, r.right + pad) - left, height: Math.min(innerHeight - 2, r.bottom + pad) - top };
+  return (
+    <div role="dialog" aria-modal="true" aria-label="Hướng dẫn sử dụng" className="fixed inset-0 z-50" onKeyDown={(e) => e.key === 'Escape' && onDone()}>
+      <div className="pointer-events-none absolute rounded-2xl shadow-[0_0_0_9999px_rgba(0,0,0,0.72)] ring-2 ring-work transition-all duration-200"
+        style={ring} />
+      <div className="absolute inset-x-4 mx-auto max-w-sm rounded-2xl border border-line bg-surface p-4 shadow-lg"
+        style={below ? { top: r.bottom + pad + 12 } : { bottom: innerHeight - r.top + pad + 12 }}>
+        <p className="text-xs font-semibold text-ink-3">{i + 1}/{steps.length}</p>
+        <p aria-live="polite" className="mt-1 text-[15px] leading-relaxed">{steps[i].text}</p>
+        <div className="mt-3 flex items-center justify-end gap-2">
+          {!last && <button className="h-11 px-3 text-sm font-semibold text-ink-3" onClick={onDone}>Bỏ qua</button>}
+          <button ref={nextBtn} className="h-11 rounded-full bg-work px-5 text-sm font-bold text-bg" onClick={next}>{last ? 'Bắt đầu tập' : 'Tiếp'}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
