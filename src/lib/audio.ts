@@ -4,6 +4,9 @@ let ctx: AudioContext | null = null;
 
 /** Must run inside a tap handler: iOS only allows sound after a user gesture. */
 export function unlockAudio() {
+  // iOS 17+: 'playback' keeps sound on when the ring/silent switch is on silent (default 'ambient' mutes it)
+  const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+  if (session) session.type = 'playback';
   ctx ??= new AudioContext();
   if (ctx.state === 'suspended') void ctx.resume();
   // a silent utterance unlocks speechSynthesis on iOS
