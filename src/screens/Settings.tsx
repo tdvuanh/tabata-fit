@@ -116,7 +116,7 @@ export function SettingsPage() {
           </p>
         </div>
       </section>
-      <p className="text-center text-xs text-ink-3">Phiên bản 0.1.0</p>
+      <p className="text-center text-xs text-ink-3">Phiên bản {__APP_VERSION__}</p>
     </Screen>
   );
 }
