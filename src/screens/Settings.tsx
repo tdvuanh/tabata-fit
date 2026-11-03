@@ -62,7 +62,7 @@ export function SettingsPage() {
           <Toggle label="Giọng đọc" hint='Đọc "Tập", "Nghỉ" và tên động tác' checked={s.voice} onChange={(v) => set({ voice: v })} />
           <label className="flex items-center gap-3 border-b border-[#22252a] px-4 py-2.5">
             <span className="flex-1 text-[15px] font-semibold">Giọng</span>
-            <select className="h-11 rounded-xl border border-line bg-surface-2 px-2.5 text-sm" value={s.voiceLang} onChange={(e) => set({ voiceLang: e.target.value as 'vi-VN' | 'en-US' })}>
+            <select className="h-11 rounded-xl border border-line bg-surface-2 px-2.5 text-base" value={s.voiceLang} onChange={(e) => set({ voiceLang: e.target.value as 'vi-VN' | 'en-US' })}>
               <option value="vi-VN">Tiếng Việt</option>
               <option value="en-US">English</option>
             </select>

@@ -100,7 +100,7 @@ export function Toggle({ label, hint, checked, onChange, disabled }: { label: st
 }
 
 export const DOW = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
-export const field = 'h-12 w-full min-w-0 rounded-xl border border-line bg-surface px-3 text-[15px] text-ink';
+export const field = 'h-12 w-full min-w-0 rounded-xl border border-line bg-surface px-3 text-base text-ink';
 export const primary = 'flex h-13 items-center justify-center gap-2 rounded-full bg-work px-5 font-bold text-bg';
 export const ghost = 'flex h-11 items-center justify-center gap-2 rounded-xl border border-line px-4 text-sm font-semibold';
 
